@@ -89,3 +89,16 @@ This project is a FastAPI-based REST API that allows users to query Rego policie
 - Returns whether access is allowed based on the policy.
 - Separate service for Rego handling (`rego_service.py`).
 
+## Project Structure
+```
+├── main.py           # FastAPI application code
+├── rego_service.py  # Separate service for Rego/OPA handling
+├── policies/        # Directory for Rego policy files (<product>.rego)
+├── data/           # Directory for data files (<product>.json)
+├── README.md       # Project overview (this file)
+└── REST_API_USAGE.md # API usage documentation
+```
+
+## License
+MIT License
+
