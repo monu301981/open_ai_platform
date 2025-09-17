@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlmodel
+psycopg2-binary
+yt-dlp
+torchaudio
+transformers
+sentence-transformers
+numpy
+torch

@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+opa-python-client
+pydantic
+requests
+tenacity

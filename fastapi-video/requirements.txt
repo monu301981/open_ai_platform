@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlmodel
+psycopg2
+transformers
+torch
+pillow
+opencv-python
+yt-dlp
+ultralytics
+requests
+certifi
+sentence-transformers
