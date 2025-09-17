@@ -41,83 +41,50 @@ parent_folder/
     └── video_config.json
 ```
 
-### 2. Create and Activate Virtual Environment
+FastAPI Audio Transcription Service
+Overview
 
-**Windows:**
-```sh
-python -m venv venv
-venv\Scripts\activate
-```
-**Linux/macOS:**
-```sh
-python3 -m venv venv
-source venv/bin/activate
-```
+This service extracts audio from local media files (audio or video) in ../contents/media/, generates time-series transcripts using the Whisper speech-to-text model, and stores the results in a PostgreSQL database (Test2). For video files, it extracts audio to an MP3 file before transcription. It supports:
 
-### 3. Upgrade pip (if needed)
-```sh
-venv\Scripts\python.exe -m pip install --upgrade pip       # Windows
-venv/bin/python -m pip install --upgrade pip               # Linux/macOS
-```
+    Job metadata (AudioJob): Stores file name, media name, status, and results.
+    Time-series transcript chunks (AudioTranscriptChunk): Stores transcripts with start/end times.
+    Semantic embeddings (AudioTranscriptVector): For similarity search on transcripts.
 
-### 4. Install dependencies
+Supported formats include audio (MP3, WAV, etc.) and video (MP4, AVI, etc.) files with audio streams. The service relies on FFmpeg for audio extraction. All data is stored in PostgreSQL using SQLModel.
+Project Structure
 
-```sh
-pip install -r requirements.txt
-```
+audio_transcript_service/
+│
+├── venv/
+├── main.py
+├── models.py
+├── database.py
+├── semantic_search.py
+├── requirements.txt
+├── README.md
+├── REST_API_USAGE.md
+└── ../contents/
+    └── media/
+        ├── example.mp4  # Video or audio files
+        ├── example.mp3
+        └── example/
+            ├── example.mp3  # Extracted audio for video files
+            └── transcript_data.json
 
-### 5. Set up PostgreSQL
+Installation
+Follow the platform-specific instructions below to set up the project.
 
-- Make sure your database is running at:
-  ```
-  postgresql+psycopg2://postgres:admin@localhost:5432/Test1
-  ```
-- Create the `Test1` database if it doesn't exist.
+# AI Chat API for Rego Policy Evaluation
 
-### 6. Configure video extraction duration
+This project is a FastAPI-based REST API that allows users to query Rego policies (using Open Policy Agent, OPA) with a chat-like interface. It dynamically loads Rego policy and data files based on the product name specified in the query (e.g., `policies/<product>.rego` and `data/<product>.json`) and evaluates access permissions.
 
-- Edit `video_config.json` to set per-video duration.
-- The `"default"` key sets fallback duration (e.g. 20 seconds).
+## Features
+- Accepts chat-like queries (e.g., "Check access for product mediacomposer with region us, usage 1 TB, license Avid Platinum").
+- Dynamically loads `<product>.rego` and `<product>.json` based on the product name.
+- Supports flexible attribute querying (any key-value pairs in the query).
+- Uploads policies to OPA via the `/v1/policies` endpoint with retry logic.
+- Evaluates queries against the specified Rego policy using OPA.
+- Combines user input with data from the product's JSON file.
+- Returns whether access is allowed based on the policy.
+- Separate service for Rego handling (`rego_service.py`).
 
-### 7. Run the server
-
-```sh
-uvicorn main:app --reload
-```
-
----
-
-## REST API Usage
-
-See [REST_API_USAGE.md](./REST_API_USAGE.md) for endpoint documentation and examples.
-
----
-
-## Notes
-
-- Always activate your `venv` before running/installing anything.
-- All extracted data is stored for semantic, timeseries, and transcript chunk search.
-- Tables are auto-created on startup.
-- Frame images are stored in `../contents/media/<video_name>/`.
-
----
-
-## Troubleshooting
-
-If you see `ModuleNotFoundError: No module named 'sentence_transformers'`, install dependencies after activating your venv:
-
-```sh
-pip install -r requirements.txt
-```
-
-If you see an error about upgrading pip, run:
-```sh
-venv\Scripts\python.exe -m pip install --upgrade pip       # Windows
-venv/bin/python -m pip install --upgrade pip               # Linux/macOS
-```
-
----
-
-## License
-
-MIT
