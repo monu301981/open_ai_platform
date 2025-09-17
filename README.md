@@ -51,8 +51,9 @@ This service extracts audio from local media files (audio or video) in ../conten
     Semantic embeddings (AudioTranscriptVector): For similarity search on transcripts.
 
 Supported formats include audio (MP3, WAV, etc.) and video (MP4, AVI, etc.) files with audio streams. The service relies on FFmpeg for audio extraction. All data is stored in PostgreSQL using SQLModel.
-Project Structure
 
+**Recommended structure:**
+```
 audio_transcript_service/
 │
 ├── venv/
@@ -70,7 +71,7 @@ audio_transcript_service/
         └── example/
             ├── example.mp3  # Extracted audio for video files
             └── transcript_data.json
-
+```
 Installation
 Follow the platform-specific instructions below to set up the project.
 
